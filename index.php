@@ -17,9 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $errors['year'] = !empty($_COOKIE['year_error']);
   $errors['sex'] = !empty($_COOKIE['sex_error']);
   $errors['limb'] = !empty($_COOKIE['limb_error']);
-  $errors['power'] = !empty($_COOKIE['power_error']);
+  $errors['powers'] = !empty($_COOKIE['powers_error']);
   $errors['bio'] = !empty($_COOKIE['bio_error']);
-  $errors['privacyacy'] = !empty($_COOKIE['privacyacy_error']);
+  $errors['privacy'] = !empty($_COOKIE['privacy_error']);
 
   if ($errors['fio']) {
     $messages[] = '<div class="error">Заполните имя.</div>';
@@ -36,10 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   if ($errors['limb']) {
     $messages[] = '<div class="error">Выберите сколько у вас конечностей.</div>';
   }
-  if ($errors['power']) {
+  if ($errors['powers']) {
     $messages[] = '<div class="error">Выберите хотя бы одну суперспособность.</div>';
   }
-  if ($errors['privacyacy']) {
+  if ($errors['privacy']) {
     $messages[] = '<div class="error">Необходимо согласиться с политикой конфиденциальности.</div>';
   }
 
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $values['ghost'] = empty($_COOKIE['ghost_value']) ? 0 : $_COOKIE['ghost_value'];
   $values['levitation'] = empty($_COOKIE['levitation_value']) ? 0 : $_COOKIE['levitation_value'];
   $values['bio'] = empty($_COOKIE['bio_value']) ? '' : $_COOKIE['bio_value'];
-  $values['privacyacy'] = empty($_COOKIE['privacyacy_value']) ? FALSE : $_COOKIE['privacyacy_value'];
+  $values['privacy'] = empty($_COOKIE['privacy_value']) ? FALSE : $_COOKIE['privacy_value'];
 
   include('form.php');
 }
@@ -112,7 +112,7 @@ else {
 }
 //проверка суперспособностей
 if (!isset($_POST['power'])) {
-  setcookie('power_error', '1', time() + 24 * 60 * 60);
+  setcookie('powers_error', '1', time() + 24 * 60 * 60);
   setcookie('immortal_value', '', 100000);
   setcookie('ghost_value', '', 100000);
   setcookie('levitation_value', '', 100000);
@@ -139,14 +139,14 @@ else {
 //запись куки для биографии
 setcookie('bio_value',$_POST['bio'],time()+ 12*30*24*60*60);
 //проверка согласия с политикой конфиденциальности
-if(!isset($_POST['privacy'])){
-  setcookie('privacyacy_error','1',time()+ 24*60*60);
-  setcookie('privacyacy_value', '', 100000);
+if(!isset($_POST['priv'])){
+  setcookie('privacy_error','1',time()+ 24*60*60);
+  setcookie('privacy_value', '', 100000);
   $errors=TRUE;
 }
 else{
-  setcookie('privacyacy_value',TRUE,time()+ 12*30*24*60*60);
-  setcookie('privacyacy_error','',100000);
+  setcookie('privacy_value',TRUE,time()+ 12*30*24*60*60);
+  setcookie('privacy_error','',100000);
 }
 
 if ($errors) {
@@ -159,9 +159,9 @@ else {
   setcookie('year_error', '', 100000);
   setcookie('sex_error', '', 100000);
   setcookie('limb_error', '', 100000);
-  setcookie('power_error', '', 100000);
+  setcookie('powers_error', '', 100000);
   setcookie('bio_error', '', 100000);
-  setcookie('privacyacy_error', '', 100000);
+  setcookie('privacy_error', '', 100000);
 }
 
 // Сохранение в базу данных.
@@ -180,7 +180,7 @@ try {
   $stmt->bindParam(':bio',$_POST['bio']);
   $stmt -> execute();
   $id=$db->lastInsertId();
-  $pwr=$db->prepare("INSERT INTO power SET power=:power,id=:id");
+  $pwr=$db->prepare("INSERT INTO powers SET power=:power,id=:id");
   $pwr->bindParam(':id',$id);
   foreach($_POST['power'] as $power){
     $pwr->bindParam(':power',$power); 

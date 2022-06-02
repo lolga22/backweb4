@@ -53,7 +53,7 @@ if (!empty($messages)) {
       <input name="limb" type="radio" value="4" <?php if($values['limb']=="4") {print 'checked';} ?>/> 4 
     </div>
     <label> Выберите суперспособности </label> <br>
-    <select name="power" size="3" multiple <?php if ($errors['power']) {print 'class="error"';} ?>>
+    <select name="power[]" size="3" multiple <?php if ($errors['powers']) {print 'class="error"';} ?>>
       <option value="бессмертие" <?php if($values['immortal']==1){print 'selected';} ?>>Бессмертие</option>
       <option value="прохождение сквозь стены" <?php if($values['ghost']==1){print 'selected';} ?>>Прохождение сквозь стены</option>
       <option value="левитация" <?php if($values['levitation']==1){print 'selected';} ?>>Левитация</option>
@@ -61,7 +61,7 @@ if (!empty($messages)) {
     <label> Краткая биография </label> <br>
     <textarea name="bio" rows="10" cols="15"><?php print $values['bio']; ?></textarea> <br>
     <div  <?php if ($errors['privacy']) {print 'class="error"';} ?> >
-    <input name="privacy" type="checkbox"<?php if($values['privacy']==TRUE){print 'checked';} ?>> Вы согласны с пользовательским соглашением <br>
+    <input name="priv" type="checkbox"<?php if($values['privacy']==TRUE){print 'checked';} ?>> Вы согласны с пользовательским соглашением <br>
     </div>
     <input type="submit" value="Отправить"/>
   </form>
